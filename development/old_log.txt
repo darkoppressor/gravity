@@ -1,0 +1,15 @@
+changeset:   2:637c1910e4af
+tag:         tip
+user:        Kevin Wells <DarkOppressor@gmail.com>
+date:        Sun Feb 08 05:06:48 2015 -0600
+summary:     Removed mass scale, added time scale, fixed an acceleration bug
+
+changeset:   1:58cf66ea2f85
+user:        Kevin Wells <DarkOppressor@gmail.com>
+date:        Tue Sep 02 15:56:38 2014 -0500
+summary:     Added missing third party libraries
+
+changeset:   0:6102e50218e2
+user:        Kevin Wells <DarkOppressor@gmail.com>
+date:        Tue Jul 22 02:34:33 2014 -0500
+summary:     Initial commit

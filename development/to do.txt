@@ -1,0 +1,2 @@
+Colors should vary based on mass and/or density
+Use opacity to make things look cooler?
