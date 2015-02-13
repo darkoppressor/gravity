@@ -81,6 +81,8 @@ void Update::input(){
 
     game.handle_game_commands_multiplayer();
     game.handle_command_states_multiplayer();
+
+    game.handle_touch_events();
 }
 
 void Update::movement(){

@@ -9,6 +9,8 @@
 #include <string>
 #include <vector>
 
+#include <SDL.h>
+
 class Game{
 public:
 
@@ -46,6 +48,9 @@ public:
     //Holds a string representing each command that is currently in the on state, and is relevant for networking.
     //This is updated each frame.
     std::vector<std::string> command_states;
+
+    //Holds captured touch events
+    std::vector<SDL_TouchFingerEvent> touch_events;
 
     Collision_Rect camera;
 
@@ -106,6 +111,7 @@ public:
     bool handle_game_command(std::string command_name);
     bool handle_input_events_gui();
     bool handle_input_events();
+    void handle_touch_events();
 };
 
 #endif

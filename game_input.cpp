@@ -7,6 +7,8 @@ void Game::prepare_for_input(){
     if(in_progress){
         command_states.clear();
 
+        touch_events.clear();
+
         display_scoreboard=false;
     }
 }
@@ -230,6 +232,14 @@ bool Game::handle_input_events_gui(){
                 event_consumed=handle_game_command_gui(engine_interface.game_commands[i].name);
             }
         }
+
+        if(!engine_interface.touch_controls && event.type==SDL_FINGERMOTION){
+            if(!event_consumed){
+                touch_events.push_back(event.tfinger);
+
+                event_consumed=true;
+            }
+        }
     }
 
     return event_consumed;
@@ -371,4 +381,56 @@ bool Game::handle_input_events(){
     }
 
     return event_consumed;
+}
+
+void Game::handle_touch_events(){
+    if(in_progress){
+        if(touch_events.size()>=2){
+            double touch_motion_threshold=0.005;
+
+            if((abs(touch_events[0].dx)>touch_motion_threshold && abs(touch_events[1].dx)>touch_motion_threshold && touch_events[0].dx<0.0 && touch_events[1].dx>0.0) ||
+            (abs(touch_events[0].dy)>touch_motion_threshold && abs(touch_events[1].dy)>touch_motion_threshold && touch_events[0].dy<0.0 && touch_events[1].dy>0.0)){
+                zoom_camera_in(camera);
+            }
+            else if((abs(touch_events[0].dx)>touch_motion_threshold && abs(touch_events[1].dx)>touch_motion_threshold && touch_events[0].dx>0.0 && touch_events[1].dx<0.0) ||
+            (abs(touch_events[0].dy)>touch_motion_threshold && abs(touch_events[1].dy)>touch_motion_threshold && touch_events[0].dy>0.0 && touch_events[1].dy<0.0)){
+                zoom_camera_out(camera);
+            }
+        }
+        else if(touch_events.size()==1){
+            double touch_motion_threshold=0.005;
+
+            if(abs(touch_events[0].dx)>touch_motion_threshold && abs(touch_events[0].dy)>touch_motion_threshold && touch_events[0].dx<0.0 && touch_events[0].dy<0.0){
+                cam_state="left_up";
+            }
+            else if(abs(touch_events[0].dx)>touch_motion_threshold && abs(touch_events[0].dy)>touch_motion_threshold && touch_events[0].dx<0.0 && touch_events[0].dy>0.0){
+                cam_state="left_down";
+            }
+            else if(abs(touch_events[0].dx)>touch_motion_threshold && touch_events[0].dx<0.0){
+                cam_state="left";
+            }
+            else if(abs(touch_events[0].dx)>touch_motion_threshold && abs(touch_events[0].dy)>touch_motion_threshold && touch_events[0].dx>0.0 && touch_events[0].dy<0.0){
+                cam_state="right_up";
+            }
+            else if(abs(touch_events[0].dx)>touch_motion_threshold && abs(touch_events[0].dy)>touch_motion_threshold && touch_events[0].dx>0.0 && touch_events[0].dy>0.0){
+                cam_state="right_down";
+            }
+            else if(abs(touch_events[0].dx)>touch_motion_threshold && touch_events[0].dx>0.0){
+                cam_state="right";
+            }
+            else if(abs(touch_events[0].dy)>touch_motion_threshold && touch_events[0].dy<0.0){
+                cam_state="up";
+            }
+            else if(abs(touch_events[0].dy)>touch_motion_threshold && touch_events[0].dy>0.0){
+                cam_state="down";
+            }
+            else{
+                cam_state="none";
+            }
+
+            if(cam_state!="none"){
+                game.world.selected_particle=-1;
+            }
+        }
+    }
 }
