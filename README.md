@@ -1,5 +1,6 @@
 # gravity
 A simplistic simulation of gravity
+http://cheeseandbacon.org/
 
 This is just a very simple simulation of gravity using stars and planets.
 
